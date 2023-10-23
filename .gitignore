@@ -1,0 +1,12 @@
+dist
+node_modules
+coverage
+.DS_Store
+.idea
+
+*.log
+*.swp
+*.tgz
+*.zip
+*~
+.env
