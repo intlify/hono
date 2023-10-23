@@ -1,6 +1,6 @@
 {
   "name": "@intlify/hono",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Internationalization middleware & utilities for Hono",
   "keywords": [
     "i18n",
