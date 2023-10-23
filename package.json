@@ -55,7 +55,7 @@
     "fix": "npm run format && npm run lint",
     "lint": "deno lint",
     "format": "deno fmt",
-    "build": "unbuild",
+    "build": "unbuild && bun run ./scripts/deno.ts",
     "test": "npm run test:type && npm run test:unit",
     "test:type": "vitest typecheck --run",
     "test:unit": "vitest run",
