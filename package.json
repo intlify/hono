@@ -52,6 +52,7 @@
     "prepare": "git config --local core.hooksPath .githooks",
     "changelog": "gh-changelogen --repo=intlify/hono",
     "release": "bumpp --commit \"release: v%s\" --push --tag",
+    "fix": "npm run format && npm run lint",
     "lint": "deno lint",
     "format": "deno fmt",
     "build": "unbuild",
