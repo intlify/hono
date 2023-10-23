@@ -1,0 +1,147 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: Lint
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Lint codes
+        run: deno lint
+
+  build:
+    name: Build
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [18.x]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v4
+
+      - name: Setup deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build codes
+        run: npm run build
+
+  test:
+    name: Test
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [18.x]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v4
+
+      - name: Setup deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Test
+        run: npm run test
+
+  edge-release:
+    name: Edge Release
+    needs:
+      - lint
+      - build
+      - test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [18]
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v4
+
+      - name: Setup deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v1
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Release Edge
+        if: |
+          github.event_name == 'push' &&
+          !startsWith(github.event.head_commit.message, '[skip-release]') &&
+          !startsWith(github.event.head_commit.message, 'chore') &&
+          !startsWith(github.event.head_commit.message, 'release') &&
+          !startsWith(github.event.head_commit.message, 'docs')
+        run: ./scripts/release.sh
+        env:
+          NPM_TOKEN: ${{secrets.NPM_ORG_TOKEN}}
+          EDGE_RELEASE: 'true'
