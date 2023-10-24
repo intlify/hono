@@ -177,7 +177,7 @@ If you are using [Visual Studio Code](https://code.visualstudio.com/) as an edit
 
 You can completion resources key on translation function with `useTranslation`.
 
-![Key Completion](TODO)
+![Key Completion](assets/key-completion.gif)
 
 resource keys completion has twe ways.
 
