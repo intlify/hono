@@ -12,7 +12,7 @@
     "singleQuote": true
   },
   "lint": {
-    "exclude": ["node_modules", "dist", "coverage", "deno"]
+    "exclude": ["node_modules", "dist", "coverage", "deno", "playground"]
     /*
     "rules": {
       "tags": ["recommended"],
