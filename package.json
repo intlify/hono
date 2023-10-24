@@ -56,6 +56,7 @@
     "lint": "deno lint",
     "format": "deno fmt",
     "build": "unbuild && bun run ./scripts/deno.ts",
+    "play:basic": "wrangler dev ./playground/basic/index.ts",
     "test": "npm run test:type && npm run test:unit",
     "test:type": "vitest typecheck --run",
     "test:unit": "vitest run",
@@ -82,7 +83,8 @@
     "typescript": "^5.2.2",
     "unbuild": "^2.0.0",
     "vitest": "^1.0.0-beta.2",
-    "vitest-environment-miniflare": "^2.14.1"
+    "vitest-environment-miniflare": "^2.14.1",
+    "wrangler": "^3.6.0"
   },
   "dependencies": {
     "@intlify/core": "npm:@intlify/core-edge@9.5.0-bd7ec22",

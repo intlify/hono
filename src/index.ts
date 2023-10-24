@@ -6,6 +6,7 @@ import { getHeaderLocale } from '@intlify/utils/hono'
 export * from '@intlify/utils/hono'
 
 import type {
+  CoreContext,
   CoreOptions,
   IsEmptyObject,
   Locale,
@@ -20,6 +21,12 @@ import type {
   TranslateOptions,
 } from '@intlify/core'
 import type { Context, MiddlewareHandler, Next } from 'hono'
+
+declare module 'hono' {
+  interface ContextVariableMap {
+    i18n: CoreContext
+  }
+}
 
 type DefaultLocaleMessageSchema<
   Schema = RemoveIndexSignature<
@@ -51,7 +58,7 @@ type DefaultLocaleMessageSchema<
  * ```
  */
 // deno-lint-ignore no-empty-interface
-export interface DefineLocaleMessage extends LocaleMessage<string> {} // eslint-disable-line @typescript-eslint/no-empty-interface
+export interface DefineLocaleMessage extends LocaleMessage<string> {}
 
 /**
  * define i18n middleware for Hono
@@ -69,7 +76,7 @@ export interface DefineLocaleMessage extends LocaleMessage<string> {} // eslint-
  * import { Hono } from 'hono'
  * import { defineI18nMiddleware } from '@intlify/hono'
  *
- * const middleware = defineI18nMiddleware({
+ * const i18nMiddleware = defineI18nMiddleware({
  *   messages: {
  *     en: {
  *       hello: 'Hello {name}!',
@@ -85,7 +92,7 @@ export interface DefineLocaleMessage extends LocaleMessage<string> {} // eslint-
  * })
  *
  * const app = new Hono()
- * app.use('*', i18n)
+ * app.use('*', i18nMiddleware)
  * ```
  */
 export function defineI18nMiddleware<
@@ -145,7 +152,7 @@ export function defineI18nMiddleware<
  * import { Hono } from 'hono'
  * import { defineI18nMiddleware, detectLocaleWithAcceeptLanguageHeader } from '@intlify/hono'
  *
- * const i18n = defineI18nMiddleware({
+ * const i18nMiddleware = defineI18nMiddleware({
  *   messages: {
  *     en: {
  *       hello: 'Hello {name}!',
@@ -158,7 +165,7 @@ export function defineI18nMiddleware<
  * })
  *
  * const app = new Hono()
- * app.use('*', i18n)
+ * app.use('*', i18nMiddleware)
  * ```
  */
 export const detectLocaleFromAcceptLanguageHeader = (
@@ -300,9 +307,23 @@ interface TranslationFunction<
  * @example
  * ```js
  * import { Hono } from 'hono'
+ * import { defineI18nMiddleware } from '@intlify/hono'
+ *
+ * const i18nMiddleware = defineI18nMiddleware({
+ *   messages: {
+ *     en: {
+ *       hello: 'Hello {name}!',
+ *     },
+ *     ja: {
+ *       hello: 'こんにちは、{name}！',
+ *     },
+ *   },
+ * })
  *
  * const app = new Hono()
- * app.use('*', i18n)
+ * app.use('*', i18nMiddleware)
+ * // setup other middlewares ...
+ *
  * app.get('/', (ctx) => {
  *   const t = useTranslation(ctx)
  *   return ctx.text(t('hello', { name: 'hono' }))
@@ -319,7 +340,6 @@ export function useTranslation<
       'middleware not initialized, please setup `app.use` with the middleware obtained with `defineI18nMiddleware`',
     )
   }
-  // console.log('sdfsfs', i18n)
 
   function translate(key: string, ...args: unknown[]): string {
     const result = Reflect.apply(_translate, null, [
