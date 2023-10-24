@@ -98,6 +98,10 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      # vitest-environment-miniflare tries to load dist/index.cjs and work with vitest...
+      - name: Build codes
+        run: npm run build
+
       - name: Test
         run: npm run test
 
