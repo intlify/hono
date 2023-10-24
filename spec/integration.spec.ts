@@ -32,7 +32,7 @@ test('translation', async () => {
   app.use('*', i18nMiddleware)
   app.get('/', (c) => {
     const t = useTranslation(c)
-    return c.json({ message: t('hello', { name: 'h3' }) })
+    return c.json({ message: t('hello', { name: 'hono' }) })
   })
 
   const res = await app.request('http://localhost', {
@@ -40,7 +40,7 @@ test('translation', async () => {
       'accept-language': 'en;q=0.9,ja;q=0.8',
     },
   })
-  expect(await res.json()).toEqual({ message: 'hello, h3' })
+  expect(await res.json()).toEqual({ message: 'hello, hono' })
 })
 
 test('custom locale detection', async () => {
@@ -70,9 +70,9 @@ test('custom locale detection', async () => {
   app.use('*', i18nMiddleware)
   app.get('/', (c) => {
     const t = useTranslation(c)
-    return c.json({ message: t('hello', { name: 'h3' }) })
+    return c.json({ message: t('hello', { name: 'hono' }) })
   })
 
   const res = await app.request('/?locale=ja')
-  expect(await res.json()).toEqual({ message: 'こんにちは, h3' })
+  expect(await res.json()).toEqual({ message: 'こんにちは, hono' })
 })
