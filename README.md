@@ -222,7 +222,7 @@ declare module '@intlify/hono' {
 }
 
 app.get('/', c => {
-  const t = useTranslation(event)
+  const t = useTranslation(c)
   // you can completion when you type `t('`
   return c.json(t('hello', { name: 'hono' }))
 }),
