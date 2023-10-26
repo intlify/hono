@@ -87,7 +87,7 @@
     "wrangler": "^3.6.0"
   },
   "dependencies": {
-    "@intlify/core": "npm:@intlify/core-edge@9.5.0-bd7ec22",
+    "@intlify/core": "^9.6.0",
     "@intlify/utils": "^0.11.1"
   }
 }
