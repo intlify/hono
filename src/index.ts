@@ -190,7 +190,7 @@ type ResolveResourceKeys<
 /**
  * The translation function, which will be defined by {@link useTranslation}.
  */
-interface TranslationFunction<
+export interface TranslationFunction<
   Schema extends Record<string, any> = {},
   DefineLocaleMessageSchema extends Record<string, any> = {},
   ResourceKeys = ResolveResourceKeys<Schema, DefineLocaleMessageSchema>,
