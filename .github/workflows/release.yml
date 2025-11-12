@@ -6,6 +6,9 @@ on:
       - '**'
     tags:
       - 'v*'
+permissions:
+  id-token: write
+  contents: write
 
 jobs:
   release:
@@ -66,3 +69,4 @@ jobs:
         run: ./scripts/release.sh
         env:
           NPM_TOKEN: ${{secrets.NPM_ORG_TOKEN}}
+          NPM_CONFIG_PROVENANCE: true
