@@ -57,7 +57,6 @@ type DefaultLocaleMessageSchema<
  * }
  * ```
  */
-// deno-lint-ignore no-empty-interface
 export interface DefineLocaleMessage extends LocaleMessage<string> {}
 
 /**
