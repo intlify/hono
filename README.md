@@ -6,6 +6,13 @@
 
 Internationalization middleware & utilities for [Hono](https://hono.dev/)
 
+<!-- eslint-disable markdown/no-missing-label-refs -- NOTE(kazupon): ignore github alert -->
+
+> [!IMPORTANT]
+> You’re viewing the legacy repository, which is developing for `@intlify/hone` v1. If you want to use later version of it, please access the [srvmid](https://github.com/intlify/srvmid/tree/main)
+
+<!-- eslint-enable markdown/no-missing-label-refs -- NOTE(kazupon): ignore github alert -->
+
 ## 🌟 Features
 
 ✅️ &nbsp;**Translation:** Simple API like
@@ -105,7 +112,7 @@ const middleware = defineI18nMiddleware({
 
 ## 🧩 Type-safe resources
 
-> [!WARNING]  
+> [!WARNING]
 > **This is experimental feature (inspired from [vue-i18n](https://vue-i18n.intlify.dev/guide/advanced/typescript.html#typescript-support)).**
 > We would like to get feedback from you 🙂.
 
@@ -168,7 +175,7 @@ If you are using [Visual Studio Code](https://code.visualstudio.com/) as an edit
 
 ## 🖌️ Resource keys completion
 
-> [!WARNING]  
+> [!WARNING]
 > **This is experimental feature (inspired from [vue-i18n](https://vue-i18n.intlify.dev/guide/advanced/typescript.html#typescript-support)).**
 > We would like to get feedback from you 🙂.
 
